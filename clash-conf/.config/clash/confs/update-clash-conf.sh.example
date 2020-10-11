@@ -1,0 +1,2 @@
+#!/bin/sh
+wget -O ISPNAME.yaml 'https://DOMAIN/PATH'
