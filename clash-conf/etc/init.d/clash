@@ -70,6 +70,11 @@ stop_service(){
         kill -9 ${clash_mpid}
     fi
 
+    # Clean out PIDFile
+    rm -f /var/run/clash.pid
+    # Clean FWMARK
+    ip rule del fwmark 1 table 100
+    ip route del local 0.0.0.0/0 dev lo table 100
     # Delete Reference First
     iptables -t mangle -D PREROUTING -j clash
     iptables -t mangle -D OUTPUT -j clash_mask
