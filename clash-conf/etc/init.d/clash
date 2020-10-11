@@ -23,29 +23,26 @@ start_service(){
     }
     procd_close_instance
 
-    # Add Redirection (DNS Hijacking)
-    iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 53
-    iptables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-ports 53
-    # Add Forward
+    # TCP Redirection
+    iptables -t nat -N clash
+    # # Bypass LAN
+    iptables -t nat -A clash -d 0.0.0.0/8 -j RETURN
+    iptables -t nat -A clash -d 10.0.0.0/8 -j RETURN
+    iptables -t nat -A clash -d 100.64.0.0/10 -j RETURN
+    iptables -t nat -A clash -d 127.0.0.0/8 -j RETURN
+    iptables -t nat -A clash -d 169.254.0.0/16 -j RETURN
+    iptables -t nat -A clash -d 172.16.0.0/16 -j RETURN
+    iptables -t nat -A clash -d 192.168.0.0/16 -j RETURN
+    iptables -t nat -A clash -d 224.0.0.0/4 -j RETURN
+    iptables -t nat -A clash -d 240.0.0.0/4 -j RETURN
+    iptables -t nat -A clash -d 255.255.255.255/32 -j RETURN
+    iptables -t nat -A clash -p tcp -j REDIRECT --to-port 17894
+    # Apply Rules
+    iptables -t nat -A PREROUTING -j clash
+    iptables -t nat -A OUTPUT -p tcp -d 198.18.0.0/16 -j REDIRECT --to-port 17894
+    # UDP Redirection
     ip rule add fwmark 1 table 100
     ip route add local 0.0.0.0/0 dev lo table 100
-    iptables -t mangle -N clash
-    # # Bypass LAN
-    iptables -t mangle -A clash -d 0.0.0.0/8 -j RETURN
-    iptables -t mangle -A clash -d 10.0.0.0/8 -j RETURN
-    iptables -t mangle -A clash -d 100.64.0.0/16 -j RETURN
-    iptables -t mangle -A clash -d 127.0.0.0/8 -j RETURN
-    iptables -t mangle -A clash -d 169.254.0.0/16 -j RETURN
-    iptables -t mangle -A clash -d 172.16.0.0/16 -j RETURN
-    iptables -t mangle -A clash -d 192.168.0.0/16 -j RETURN
-    iptables -t mangle -A clash -d 224.0.0.0/4 -j RETURN
-    iptables -t mangle -A clash -d 240.0.0.0/4 -j RETURN
-    # # Proxy all devices on lan
-    iptables -t mangle -A clash -p udp -j TPROXY --on-port 17894 --tproxy-mark 1
-    iptables -t mangle -A clash -p tcp -j TPROXY --on-port 17894 --tproxy-mark 1
-    # Apply Rules
-    iptables -t mangle -A PREROUTING -j clash
-    # # Proxy Gateway Itself
     iptables -t mangle -N clash_mask
     iptables -t mangle -A clash_mask -d 0.0.0.0/8 -j RETURN
     iptables -t mangle -A clash_mask -d 10.0.0.0/8 -j RETURN
@@ -56,10 +53,15 @@ start_service(){
     iptables -t mangle -A clash_mask -d 192.168.0.0/16 -j RETURN
     iptables -t mangle -A clash_mask -d 224.0.0.0/4 -j RETURN
     iptables -t mangle -A clash_mask -d 240.0.0.0/4 -j RETURN
-    iptables -t mangle -A clash_mask -j RETURN -m mark --mark 0xff
-    iptables -t mangle -A clash_mask -p udp -j MARK --set-mark 1
-    iptables -t mangle -A clash_mask -p tcp -j MARK --set-mark 1
-    iptables -t mangle -A OUTPUT -j clash_mask
+    iptables -t mangle -A clash_mask -d 255.255.255.255/32 -j RETURN
+    iptables -t mangle -A clash_mask -p udp -j TPROXY --on-port 17894 --tproxy-mark 1
+    iptables -t mangle -A OUTPUT -p udp -d 198.18.0.0/16 -j MARK --set-mark 1
+    iptables -t mangle -A PREROUTING -p udp -j clash_mask
+    # DNS Options
+    iptables -t nat -N clash_dns
+    iptables -t nat -A clash_dns -p udp -j REDIRECT --to-port 10053
+    iptables -t nat -I OUTPUT -p udp --dport 53 -j clash_dns
+    iptables -t nat -I PREROUTING -p udp --dport 53 -j REDIRECT --to 10053
 }
 
 stop_service(){
@@ -77,12 +79,19 @@ stop_service(){
     ip rule del fwmark 1 table 100
     ip route del local 0.0.0.0/0 dev lo table 100
     # Delete Reference First
-    iptables -t mangle -D PREROUTING -j clash
-    iptables -t mangle -D OUTPUT -j clash_mask
+    iptables -t nat -D PREROUTING -j clash
+    iptables -t mangle -D PREROUTING -j clash_mask
+    iptables -t nat -D OUTPUT -p tcp -d 198.18.0.0/16 -j REDIRECT --to-port 17894
+    iptables -t mangle -D OUTPUT -p udp -d 198.18.0.0/16 -j MARK --set-mark 1
+    iptables -t mangle -D PREROUTING -p udp -j clash_mask
+    iptables -t nat -D OUTPUT -p udp --dport 53 -j clash_dns
+    iptables -t nat -D PREROUTING -p udp --dport 53 -j REDIRECT --to 10053
     # Clear all rules
     iptables -t mangle -F clash_mask
-    iptables -t mangle -F clash
+    iptables -t nat -F clash
+    iptables -t nat -F clash_dns
     # Delete created chains
     iptables -t mangle -X clash_mask
-    iptables -t mangle -X clash
+    iptables -t nat -X clash
+    iptables -t nat -X clash_dns
 }

@@ -45,7 +45,9 @@ servConf['secret'] = 'A8a9B0b6c0c4D'
 servConf['dns']['enable'] = True
 servConf['dns']['ipv6'] = False
 servConf['dns']['enhanced-mode'] = 'fake-ip'
-servConf['dns']['listen'] = '0.0.0.0:53'
+servConf['dns']['listen'] = '0.0.0.0:10053'
+servConf['dns']['fake-ip-range'] = '198.18.0.1/16'
+servConf['dns']['use-hosts'] = True
 
 # Ban BT
 servConf['rules'].insert(1,'DST-PORT,6881,REJECT')
