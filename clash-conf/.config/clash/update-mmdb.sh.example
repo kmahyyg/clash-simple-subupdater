@@ -1,0 +1,7 @@
+#!/bin/sh
+
+LICENSE_KEY=''
+
+wget -O Country.mmdb.tar.gz "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=${LICENSE_KEY}&suffix=tar.gz"
+tar zxvf ./Country.mmdb.tar.gz -C .
+mv ./GeoLite2-Country_*/GeoLite2-Country.mmdb ./Country.mmdb

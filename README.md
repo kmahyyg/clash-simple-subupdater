@@ -6,6 +6,8 @@ Binary and Clash Web is from https://opt.cn2qq.com
 
 All scripts except listed above are written by Patrick Young and licensed under AGPL v3.
 
+Use clash-dashboard siince it's smaller.
+
 ## TroubleShooting
 
 - You should at least have 5M available space.

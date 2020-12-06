@@ -1,2 +1,8 @@
 #!/bin/sh
-wget -O ISPNAME.yaml 'https://DOMAIN/PATH'
+CONFDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+rm -rf "${CONFDIR}"/*.yaml
+
+wget -O "${CONFDIR}"/ISPNAME.yaml 'https://ISPNAME/ISPPATH/CONFIG'
+
+post-download.sh "${CONFDIR}"/ISPNAME.yaml
