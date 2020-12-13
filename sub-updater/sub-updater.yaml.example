@@ -5,11 +5,15 @@ mmdb-download-url: 'https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Count
 core-download-url: 'https://opt.cn2qq.com/opt-file/clash'
 dashboard-download-url: 'https://opt.cn2qq.com/opt-file/clash_webs.tgz'
 clashori:
+  tproxy-port: ''
+  socks-port: ''
+  port: ''
   redir-port: 17894
   mixed-port: 17893
   allow-lan: true
   mode: rule
   log-level: info
+  bind-address: '*'
   ipv6: false
   external-controller: 0.0.0.0:17900
   external-ui: webui
@@ -22,3 +26,6 @@ clashori:
     fake-ip-range: 198.18.0.1/16
 rules-insert:
   - DST-PORT,6881,REJECT
+clash-core-path: /sbin/clash
+clash-config-path: /etc/config/clash
+connectivity-portal: https://connect.rom.miui.com/generate_204
