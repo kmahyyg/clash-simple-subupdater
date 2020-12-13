@@ -1,13 +1,7 @@
 package config
 
-import (
-	yaml "gopkg.in/yaml.v3"
-	"io/ioutil"
-	"log"
-)
-
 const (
-	CurrentVer string = "v0.0.1"
+	CurrentVer string = "v0.1.0"
 )
 
 var ClientConf ClientConfig
