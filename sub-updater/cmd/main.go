@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"time"
 )
 
@@ -71,5 +72,28 @@ func main() {
 	} else {
 		log.Fatalln("Current specified node provider is not existing!")
 	}
+
+}
+
+
+func RunClash(){
+	proc := exec.Command(config.ClientConf.ClashCorePath, "-d", config.ClientConf.ClashConfPath)
+	proc.Stdout = os.Stdout
+	proc.Stderr = os.Stderr
+	err := proc.Start()
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+
+func ManipulateClashConf(){
+
+}
+
+func DownloadISPConf() {
+
+}
+
+func DownloadMMDB(){
 
 }
