@@ -35,7 +35,7 @@ func main() {
 	}
 	// check network connectivity
 	reqclient := http.DefaultClient
-	reqclient.Timeout = 5*time.Second
+	reqclient.Timeout = 30*time.Second
 	resp, err := reqclient.Get(config.ClientConf.CaptivePortal)
 	if resp == nil || resp.StatusCode != 204 || err != nil {
 		log.Fatalln(err, "Network is not connected.")
@@ -139,11 +139,20 @@ func ManipulateClashConf(subconf *config.ClientConfig, ispconf *config.ClashConf
 	// append rule first
 	ispconf.NodeNRoute.Rule = append(ispconf.NodeNRoute.Rule, subconf.Rules2Insert...)
 	// modify inbound first
-
+	ispconf.Inbound = subconf.OriginalClashConf.Inbound
+	// modify general
+	ispconf.General = subconf.OriginalClashConf.General
 	// then controller
-
+	ispconf.Controller = subconf.OriginalClashConf.Controller
 	// then dns
-
+	data, err := yaml.Marshal(subconf.OriginalClashConf.DNS)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	err = yaml.Unmarshal(data, ispconf.DNS)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	// then return
 	return nil
 }

@@ -24,7 +24,8 @@ type ClientConfig struct {
 }
 
 type ClientOriClashConf struct {
-	Inbound      *ClashInbound
-	Controller   *ClashController
-	DNS          *ClashDNS `yaml:"dns"`
+	General *ClashGeneral
+	Inbound *ClashInbound
+	Controller *ClashController
+	DNS ClashDNS `yaml:"dns"`
 }

@@ -5,11 +5,11 @@ package config
 
 // ClashConfig read in the original config of clash and parse
 type ClashConfig struct {
-	General    *ClashGeneral
-	DNS        *ClashDNS
-	Controller *ClashController
-	Inbound    *ClashInbound
-	NodeNRoute *ClashNodeAndRoute
+	General    *ClashGeneral `yaml:"-"`
+	DNS        *ClashDNS `yaml:"-"`
+	Controller *ClashController `yaml:"-"`
+	Inbound    *ClashInbound	`yaml:"-"`
+	NodeNRoute *ClashNodeAndRoute `yaml:"-"`
 }
 
 type ClashGeneral struct {
