@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"os/exec"
 	"runtime"
 	"time"
 )
@@ -123,23 +122,10 @@ func main() {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		runtime.GC()
-		// start up clash
-		RunClash()
 	} else {
 		log.Fatalln("Current specified node provider is not existing!")
 	}
 
-}
-
-func RunClash() {
-	proc := exec.Command(config.ClientConf.ClashCorePath, "-d", config.ClientConf.ClashConfPath)
-	proc.Stdout = os.Stdout
-	proc.Stderr = os.Stderr
-	err := proc.Start()
-	if err != nil {
-		log.Fatalln(err)
-	}
 }
 
 func ManipulateClashConf(subconf *config.ClientConfig, ispconf *config.ClashConfig) error {

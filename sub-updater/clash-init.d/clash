@@ -9,10 +9,11 @@ STOP=15
 USE_PROCD=1
 
 start_service(){
+    /sbin/clashsub
     procd_open_instance
     procd_set_param command /sbin/clash
-    procd_append_param command -d /root/.config/clash
-    procd_set_param file /root/.config/clash/config.yaml
+    procd_append_param command -d /etc/config/clash
+    procd_set_param file /etc/config/clash/config.yaml
     procd_set_param respawn 600 15 3
     procd_set_param stdout 0    # this should change to 1 for debugging purpose
     procd_set_param stderr 0    # same as above
@@ -67,11 +68,17 @@ start_service(){
 
 stop_service(){
     local clash_mpid=""
+    local clashsub_pid=""
 
     clash_mpid=$(ps -w | grep -w "/sbin/clash" | grep -v grep| awk '{print $1}')
-    
+    clash_subpid=$(ps -w | grep -w "/sbin/clashsub" | grep -v grep| awk '{print $1}')
+
     if [ "${clash_mpid}" != "" ]; then
         kill -9 ${clash_mpid}
+    fi
+
+    if [ "${clash_subpid}" != "" ]; then
+        kill -9 ${clash_subpid}
     fi
 
     # Clean out PIDFile
