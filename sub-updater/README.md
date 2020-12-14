@@ -4,6 +4,18 @@ Subscribe updater.
 
 No TUN! No Game!
 
+# Note
+
+To use this tool, you must put all binaries under the same folder.
+
+All config should be put to the path you've specified.
+
+And also clash-dashboard should be downloaded and extracted to corresponding folder.
+
+PLEASE DO NOT DISABLE DNSMASQ DNS ROLE.
+THIS SOFTWARE HAS A FEATURE TO DETECT INTERNET SO THAT IT COULD DOWNLOAD REMOTE CONFIG.
+
+
 # Compile
 
 ```bash

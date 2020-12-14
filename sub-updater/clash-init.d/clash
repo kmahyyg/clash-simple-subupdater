@@ -9,7 +9,8 @@ STOP=15
 USE_PROCD=1
 
 start_service(){
-    /sbin/clashsub
+    sleep 5
+    sh -c 'cd /sbin; /sbin/clashsub'
     procd_open_instance
     procd_set_param command /sbin/clash
     procd_append_param command -d /etc/config/clash
