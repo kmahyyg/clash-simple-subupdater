@@ -1,7 +1,0 @@
-*.yaml
-*.sh
-!*.example
-!post-download.sh
-!pre-up.sh
-!pre-down.sh
-!install-config.sh
