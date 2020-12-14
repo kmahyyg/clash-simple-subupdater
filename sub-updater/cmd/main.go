@@ -35,14 +35,14 @@ func main() {
 	}
 	// check network connectivity
 	reqclient := http.DefaultClient
-	reqclient.Timeout = 30*time.Second
+	reqclient.Timeout = 30 * time.Second
 	resp, err := reqclient.Get(config.ClientConf.CaptivePortal)
 	if resp == nil || resp.StatusCode != 204 || err != nil {
 		log.Fatalln(err, "Network is not connected.")
 	}
 	// create folder for config
 	fdinfo, err1 := os.Stat(config.ClientConf.ClashConfPath)
-	if fdinfo == nil|| err1 != nil || !fdinfo.IsDir() {
+	if fdinfo == nil || err1 != nil || !fdinfo.IsDir() {
 		err = os.Mkdir(config.ClientConf.ClashConfPath, 0755)
 		if err != nil {
 			log.Println("Clash Config Path CANNOT be created.")
@@ -65,7 +65,7 @@ func main() {
 			log.Fatalln(err)
 		}
 		if respcf.StatusCode != 200 || respcf == nil {
-			log.Printf("HTTP Error %d " ,respcf.StatusCode)
+			log.Printf("HTTP Error %d ", respcf.StatusCode)
 			log.Fatalln("Request Config From ISP is NOT successfully finished.")
 		}
 		// read response as []byte
@@ -86,13 +86,13 @@ func main() {
 		}
 		// detect if mmdb exists
 		fdinfo, err = os.Stat(config.ClientConf.ClashConfPath + "/Country.mmdb")
-		if err != nil || fdinfo ==nil ||fdinfo.IsDir() {
+		if err != nil || fdinfo == nil || fdinfo.IsDir() {
 			// download mmdb
 			respmmdb, err := reqclient.Get(config.ClientConf.MmdbDwnldURL)
 			log.Println("If unsuccessful, please download mmdb from ", config.ClientConf.MmdbDwnldURL)
 			if err == nil && respmmdb.StatusCode == 200 {
 				countryMMDB, _ := ioutil.ReadAll(respmmdb.Body)
-				err = ioutil.WriteFile(config.ClientConf.ClashConfPath + "/Country.mmdb", countryMMDB, 0644)
+				err = ioutil.WriteFile(config.ClientConf.ClashConfPath+"/Country.mmdb", countryMMDB, 0644)
 				if err != nil {
 					log.Fatalln(err)
 				}
@@ -119,7 +119,7 @@ func main() {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		err = ioutil.WriteFile(config.ClientConf.ClashConfPath + "/config.yaml", modifiedConf, 0644)
+		err = ioutil.WriteFile(config.ClientConf.ClashConfPath+"/config.yaml", modifiedConf, 0644)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -132,8 +132,7 @@ func main() {
 
 }
 
-
-func RunClash(){
+func RunClash() {
 	proc := exec.Command(config.ClientConf.ClashCorePath, "-d", config.ClientConf.ClashConfPath)
 	proc.Stdout = os.Stdout
 	proc.Stderr = os.Stderr
@@ -164,4 +163,3 @@ func ManipulateClashConf(subconf *config.ClientConfig, ispconf *config.ClashConf
 	// then return
 	return nil
 }
-

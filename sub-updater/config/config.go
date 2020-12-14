@@ -17,15 +17,15 @@ type ClientConfig struct {
 	CoreDwnldURL      string              `yaml:"core-download-url"`
 	DashboardDwnldURL string              `yaml:"dashboard-download-url"`
 	OriginalClashConf *ClientOriClashConf `yaml:"clashori"`
-	Rules2Insert 	[]string  `yaml:"rules-insert,omitempty"`
+	Rules2Insert      []string            `yaml:"rules-insert,omitempty"`
 	ClashCorePath     string              `yaml:"clash-core-path"`
 	ClashConfPath     string              `yaml:"clash-config-path"`
-	CaptivePortal 	  string 	`yaml:"connectivity-portal"`
+	CaptivePortal     string              `yaml:"connectivity-portal"`
 }
 
 type ClientOriClashConf struct {
-	General *ClashGeneral `yaml:",inline"`
-	Inbound *ClashInbound `yaml:",inline"`
+	General    *ClashGeneral    `yaml:",inline"`
+	Inbound    *ClashInbound    `yaml:",inline"`
 	Controller *ClashController `yaml:",inline"`
-	DNS ClashDNS `yaml:"dns"`
+	DNS        ClashDNS         `yaml:"dns"`
 }
