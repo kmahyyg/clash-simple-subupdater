@@ -5,9 +5,6 @@ mmdb-download-url: 'https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Count
 core-download-url: 'https://opt.cn2qq.com/opt-file/clash'
 dashboard-download-url: 'https://opt.cn2qq.com/opt-file/clash_webs.tgz'
 clashori:
-  tproxy-port: ''
-  socks-port: ''
-  port: ''
   redir-port: 17894
   mixed-port: 17893
   allow-lan: true

@@ -80,17 +80,25 @@ func main() {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		// download mmdb
-		respmmdb, err := reqclient.Get(config.ClientConf.MmdbDwnldURL)
-		log.Println("If unsuccessful, please download mmdb from ")
-		if err == nil && respmmdb.StatusCode == 200 {
-			countryMMDB, _ := ioutil.ReadAll(respmmdb.Body)
-			err = ioutil.WriteFile(config.ClientConf.ClashConfPath + "/Country.mmdb", countryMMDB, 0644)
-			if err != nil {
+		// dns might be empty in some way
+		if config.OriISPClashConf.DNS == nil {
+			config.OriISPClashConf.DNS = &config.ClashDNS{}
+		}
+		// detect if mmdb exists
+		fdinfo, err = os.Stat(config.ClientConf.ClashConfPath + "/Country.mmdb")
+		if err != nil || fdinfo ==nil ||fdinfo.IsDir() {
+			// download mmdb
+			respmmdb, err := reqclient.Get(config.ClientConf.MmdbDwnldURL)
+			log.Println("If unsuccessful, please download mmdb from ", config.ClientConf.MmdbDwnldURL)
+			if err == nil && respmmdb.StatusCode == 200 {
+				countryMMDB, _ := ioutil.ReadAll(respmmdb.Body)
+				err = ioutil.WriteFile(config.ClientConf.ClashConfPath + "/Country.mmdb", countryMMDB, 0644)
+				if err != nil {
+					log.Fatalln(err)
+				}
+			} else {
 				log.Fatalln(err)
 			}
-		} else {
-			log.Fatalln(err)
 		}
 		// detect clash-dashboard
 		cdashboardPath := config.ClientConf.ClashConfPath + "/" + config.ClientConf.OriginalClashConf.Controller.ExternalUI
@@ -137,7 +145,7 @@ func RunClash(){
 
 func ManipulateClashConf(subconf *config.ClientConfig, ispconf *config.ClashConfig) error {
 	// append rule first
-	ispconf.NodeNRoute.Rule = append(ispconf.NodeNRoute.Rule, subconf.Rules2Insert...)
+	ispconf.NodeNRoute.Rule = append(subconf.Rules2Insert, ispconf.NodeNRoute.Rule...)
 	// modify inbound first
 	ispconf.Inbound = subconf.OriginalClashConf.Inbound
 	// modify general
