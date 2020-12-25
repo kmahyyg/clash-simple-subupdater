@@ -1,3 +1,11 @@
+# Sub-Updater
+
+Another CLI for updating subscription for clash. Check the readme inside `sub-updater` folder.
+
+# Original README
+
+Originally, this project is built for PhiComm K2P, but the RAM is too small. So Now it is built for my Linux Desktop.
+
 K2P 16M ROM+128M RAM
 
 ## Clash

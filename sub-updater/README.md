@@ -1,16 +1,20 @@
-# Phicomm-K2P-Clash
+# Sub-updater for Clash
 
 Subscribe updater.
 
-No TUN! No Game!
+No TUN! No Game! (FOR MIPS)
+
+For AMD64, you make it yourself.
 
 # Note
 
-To use this tool, you must put all binaries under the same folder.
+To use this tool, you must put all binaries under the corresponding folder.
 
-All config should be put to the path you've specified.
+All config should be put to the path you've specified and sub-updater will look up its own config in current working folder.
 
 And also clash-dashboard should be downloaded and extracted to corresponding folder.
+
+# Note for OpenWRT
 
 PLEASE DO NOT DISABLE DNSMASQ DNS ROLE.
 THIS SOFTWARE HAS A FEATURE TO DETECT INTERNET SO THAT IT COULD DOWNLOAD REMOTE CONFIG.
@@ -46,7 +50,7 @@ UPX comes with ABSOLUTELY NO WARRANTY; for details type 'upx -L'.
 
 # License
 
-
+```
  sub-updater
  Copyright (C) 2020  kmahyyg @ PatMeow Ltd.
  
@@ -62,4 +66,4 @@ UPX comes with ABSOLUTELY NO WARRANTY; for details type 'upx -L'.
  
  You should have received a copy of the GNU Affero General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+```
