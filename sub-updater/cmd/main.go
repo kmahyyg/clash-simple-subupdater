@@ -18,7 +18,7 @@ func main() {
 	config.ConfigName = *rawConfNm
 	log.Printf("Sub-Updater, Version: %s , Config: %s \n", config.CurrentVer, config.ConfigName)
 	// create folder if not exists, require root
-	if os.Geteuid() != 0 {
+	if os.Geteuid() != 0 && runtime.GOARCH != "amd64" {
 		log.Fatalln("Require root.")
 	}
 	// read program config
