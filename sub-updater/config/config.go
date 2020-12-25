@@ -1,7 +1,7 @@
 package config
 
 const (
-	CurrentVer string = "v0.1.0"
+	CurrentVer string = "v0.1.2"
 )
 
 var ConfigName string = "sub-updater.yaml"
