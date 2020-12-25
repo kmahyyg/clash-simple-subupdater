@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"github.com/kmahyyg/phicomm-k2p-clash/sub-updater/config"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
@@ -12,6 +13,9 @@ import (
 )
 
 func main() {
+	var rawConfNm = flag.String("conf", "sub-updater.yaml", "Sub-Updater Config YAML Name")
+	flag.Parse()
+	config.ConfigName = *rawConfNm
 	log.Printf("Sub-Updater, Version: %s , Config: %s \n", config.CurrentVer, config.ConfigName)
 	// create folder if not exists, require root
 	if os.Geteuid() != 0 {

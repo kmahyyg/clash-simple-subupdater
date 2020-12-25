@@ -2,8 +2,9 @@ package config
 
 const (
 	CurrentVer string = "v0.1.0"
-	ConfigName string = "sub-updater.yaml"
 )
+
+var ConfigName string = "sub-updater.yaml"
 
 // DO NOTE: THE sub-sub-updater.yaml should and only should put as the same folder of binary.
 

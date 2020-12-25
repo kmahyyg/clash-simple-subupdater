@@ -1,5 +1,6 @@
 #!/bin/bash
-CGO_ENABLED=0 GOARCH=mipsle GOOS=linux GOMIPS=softfloat go build -trimpath -ldflags '-s -w' -o clashsub.ori ./cmd/main.go
-strip ./clashsub.ori
-upx ./clashsub.ori -o ./clashsub
-rm ./clashsub.ori
+mkdir -p bin
+CGO_ENABLED=0 GOARCH=mipsle GOOS=linux GOMIPS=softfloat go build -trimpath -ldflags '-s -w' -o bin/clashsub.mips24kcle.ori ./cmd/main.go
+strip bin/clashsub.mips24kcle.ori
+upx bin/clashsub.mips24kcle.ori -o bin/clashsub.mips24kcle
+rm bin/clashsub.mips24kcle.ori

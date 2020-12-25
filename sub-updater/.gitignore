@@ -1,4 +1,7 @@
 .idea/
 .vscode/
 sub-updater.yaml
+sub-updater-amd64.yaml
+sub-updater-mips.yaml
 go_build_main_go
+clashsub*
