@@ -27,7 +27,7 @@ type ClashController struct {
 type ClashInbound struct {
 	Port        int    `yaml:"port,omitempty"`
 	SocksPort   int    `yaml:"socks-port,omitempty"`
-	RedirPort   int    `yaml:"redir-port"`
+	RedirPort   int    `yaml:"redir-port,omitempty"`
 	TProxyPort  int    `yaml:"tproxy-port,omitempty"`
 	MixedPort   int    `yaml:"mixed-port"`
 	AllowLan    bool   `yaml:"allow-lan"`
